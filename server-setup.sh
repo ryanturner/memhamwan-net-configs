@@ -2,6 +2,7 @@
 # HamWAN Memphis Metro, Inc
 # This is free and unencumbered software released into the public domain.
 # 30 Jan 2015 de K0RET
+# Execute this as root using: bash <(curl -s https://raw.githubusercontent.com/ryanturner/memhamwan-net-configs/master/server-setup.sh)
 
 zabbixserver=44.34.128.21
 users=( ryan_turner ns4b )
