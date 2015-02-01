@@ -9,6 +9,7 @@ users=( ryan_turner ns4b )
 monitor=monitor1.ret.memhamwan.net
 nameserver1="44.34.131.1"
 nameserver2="44.34.132.1"
+searchdomain=memhamwan.net
 echo "Please enter FQDN Hostname: "
 read hostname
 
@@ -70,5 +71,6 @@ fi
 rm /etc/sudoers.tmp
 
 echo "nameserver ${nameserver1}
-nameserver ${nameserver2}" > /etc/resolv.conf
+nameserver ${nameserver2}
+search ${searchdomain}" > /etc/resolv.conf
 ifdown eth0 && ifup eth0
