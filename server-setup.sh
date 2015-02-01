@@ -7,7 +7,8 @@
 zabbixserver=44.34.128.21
 users=( ryan_turner ns4b )
 monitor=monitor1.ret.memhamwan.net
-nameservers="44.34.131.1 44.34.132.1"
+nameserver1="44.34.131.1"
+nameserver2="44.34.132.1"
 echo "Please enter FQDN Hostname: "
 read hostname
 
@@ -23,6 +24,7 @@ while true; do
     esac
 done
 apt-get -q -y install zabbix-agent fail2ban
+apt-get -q -y remove resolvconf
 
 echo "Configuring Zabbix-Agent"
 sed -i 's/Server=127.0.0.1/Server=$zabbixserver/g' /etc/zabbix/zabbix_agentd.conf
@@ -67,5 +69,6 @@ if [ "$?" -eq "0" ]; then
 fi
 rm /etc/sudoers.tmp
 
-echo "dns-nameservers ${nameservers}" >> /etc/network/interfaces
+echo "nameserver ${nameserver1}
+nameserver ${nameserver2}" > /etc/resolv.conf
 ifdown eth0 && ifup eth0
