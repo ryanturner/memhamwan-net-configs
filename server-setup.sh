@@ -52,11 +52,6 @@ service ssh restart
 echo "@${monitor}:514" >> /etc/rsyslog.conf
 service rsyslog restart
 
-ufw allow 22
-ufw allow 10050
-ufw allow 10051
-ufw enable
-
 if [ -f "/etc/sudoers.tmp" ]; then
     exit 1
 fi
