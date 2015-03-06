@@ -7,9 +7,10 @@
 zabbixserver=44.34.128.21
 users=( ryan_turner ns4b )
 monitor=monitor1.ret.memhamwan.net
-nameserver1="44.34.131.1"
-nameserver2="44.34.132.1"
+nameserver1="44.34.132.1"
+nameserver2="44.34.133.1"
 searchdomain=memhamwan.net
+ntpserver=ntp.memhamwan.net
 echo "Please enter FQDN Hostname: "
 read hostname
 
@@ -24,6 +25,11 @@ while true; do
         * ) echo "Please answer yes or no.";;
     esac
 done
+echo "Setting up NTP"
+apt-get -q -y install ntp
+ntpdate ${ntpserver}
+echo "server ${ntpserver}" >> /etc/ntp.conf
+
 apt-get -q -y install zabbix-agent fail2ban
 apt-get -q -y remove resolvconf
 
