@@ -28,5 +28,6 @@ echo "
 </tomcat-users>" > /etc/tomcat7/tomcat-users.xml
 # Please manually copy the zip to /tmp
 unzip /tmp/OpenAM-12.0.0.zip
-mv /tmp/openam/OpenAM-12.0.0.war /var/lib/tomcat7/webapps/
+mv /tmp/openam/OpenAM-12.0.0.war /var/lib/tomcat7/webapps/openam.war
+chown -R tomcat7:tomcat7 /usr/share/tomcat7
 service tomcat7 restart
