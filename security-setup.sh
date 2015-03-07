@@ -1,19 +1,14 @@
-sudo apt-get install slapd ldap-utils
-echo "dn: cn=config
-changetype: modify
-replace: olcLogLevel
-olcLogLevel: stats" > logging.ldif
-sudo ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f logging.ldif
 
+sudo apt-get install default-jdk tomcat7 ant git unzip tomcat7-admin 
+
+#OpenDJ
+#Download and ftp over opendj_2.6.0-1_all.deb
+dpkg -i /tmp/opendj_2.6.0-1_all.deb
+sudo /opt/opendj/setup --cli
 
 # OpenAM
-sudo apt-get install tomcat7
-sudo apt-get install default-jdk
-sudo apt-get install ant git unzip
-sudo apt-get install tomcat7-admin 
-cp /etc/tomcat7/tomcat-users.xml /etc/tomcat7/tomcat-users.xml.orig
-echo 'JAVA_OPTS="-Djava.awt.headless=true -server -XX:MaxPermSize=256m -Xmx1024m"' | cat - /etc/init.d/tomcat7 > temp && mv temp /etc/init.d/tomcat7
-sudo chmod 755 /etc/init.d/tomcat7
+cp /etc/default/tomcat7 /etc/default/tomcat7.orig
+sed -i 's/JAVA_OPTS="-Djava.awt.headless=true -Xmx128m -XX:+UseConcMarkSweepGC"/JAVA_OPTS="-Djava.awt.headless=true -server -XX:MaxPermSize=256m -Xmx2048m -XX:+UseConcMarkSweepGC"/g' /etc/default/tomcat7
 echo "
 <?xml version='1.0' encoding='utf-8'?>
 <tomcat-users>
