@@ -1,5 +1,6 @@
 # memhamwan-net-configs
 # after you execute this script, you need to do three things
+# Execute with system script run [system script find name="client-node-config.rsc"]
 # /system identity set name=AE7SJ-Paine
 # /interface wireless set 0 radio-name="YourCallsign/YourLocation"
 # /user set admin password=put-your-password-here!
