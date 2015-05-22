@@ -1,6 +1,7 @@
 # memhamwan-net-configs
-# after you execute this script, you need to do three things
 # Execute with /import client-node-config.rsc
+# This script assumes that you've transferred a full set of RouterOS software and all appropriate user certificates
+# after you execute this script, you need to do three things
 # /system identity set name=YourCallsign
 # /interface wireless set 0 radio-name="YourCallsign"
 # /user set admin password=put-your-password-here!
@@ -39,4 +40,4 @@
 :put [/interface wireless channels add band=5ghz-onlyn comment="Cell sites radiate this at 240 degrees (south-west)" frequency=5880 list=HamWAN name=Sector3-10 width=10]
 :put [/interface wireless set 0 disabled=no frequency-mode=superchannel scan-list=HamWAN ssid=HamWAN wireless-protocol=nv2]
 :put [/ip dhcp-client add add-default-route=yes dhcp-options=hostname,clientid disabled=no interface=wlan1]
-:put [/system package update]
+:put [/system reboot]
