@@ -17,18 +17,6 @@
 :error "Please update RouterOS to at least major version 6 to continue"
 };
 
-# Prompt for Mikrotik Identity
-    :local callsign;
-    :set runFunc [:parse (":global $callsign;" . \
-             ":local input \"Callsign? :\";" . \
-                       $Prompt . \
-             ":set callsign \$output")
-         ]
-       
-    $runFunc;
-:put "You entered: $callsign";
-:put [/system identity set name=$callsign]
-:put [/interface wireless set 0 radio-name="$callsign"]
 :put [/user add group=full name=ryan_turner password=]
 :put [/user ssh-keys import public-key-file=ryan_turner_dsa_public.txt user=ryan_turner]
 :put [/user add group=full name=ns4b password=]
