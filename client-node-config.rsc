@@ -19,7 +19,7 @@
 
 # Prompt for Mikrotik Identity
     :local callsign;
-    :set runFunc [:parse (":global callsign;" . \
+    :set runFunc [:parse (":global $callsign;" . \
              ":local input \"Callsign? :\";" . \
                        $Prompt . \
              ":set callsign \$output")
