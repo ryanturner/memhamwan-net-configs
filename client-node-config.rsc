@@ -28,8 +28,6 @@
 :put "You entered: $callsign";
 :put [/system identity set name=$callsign]
 :put [/interface wireless set 0 radio-name="$callsign"]
-:put [/tool fetch url="http://memhamwan.org/wp-content/uploads/2014/11/ryan_turner_dsa_public.txt" mode=http]
-:put [/tool fetch url="http://memhamwan.org/wp-content/uploads/2014/11/ns4b_dsa_public.txt" mode=http]
 :put [/user add group=full name=ryan_turner password=]
 :put [/user ssh-keys import public-key-file=ryan_turner_dsa_public.txt user=ryan_turner]
 :put [/user add group=full name=ns4b password=]
