@@ -1,8 +1,8 @@
 # memhamwan-net-configs
 # after you execute this script, you need to do three things
 # Execute with /import client-node-config.rsc
-# /system identity set name=AE7SJ-Paine
-# /interface wireless set 0 radio-name="YourCallsign/YourLocation"
+# /system identity set name=YourCallsign
+# /interface wireless set 0 radio-name="YourCallsign"
 # /user set admin password=put-your-password-here!
 # /console clear-history
 :put "Configuring your radio for HamWAN"
