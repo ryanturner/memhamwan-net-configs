@@ -4,7 +4,30 @@
 # /interface wireless set 0 radio-name="YourCallsign/YourLocation"
 # /user set admin password=put-your-password-here!
 # /console clear-history
+:put "Configuring your radio for HamWAN"
 
+:global ROSver value=[:tostr [/system resource get value-name=version]];
+:global ROSverH value=[:pick $ROSver 0 ([:find $ROSver "." -1]) ];
+:global ROSverL value=[:pick $ROSver ([:find $ROSver "." -1] + 1) [:len $ROSver] ];
+:if ([:len $ROSverL] < 2) do={ set $ROSverL value=("0".$ROSverL) };
+
+:global ROSverN value=[:tonum ($ROSverL.$ROSverL)];
+:if ($ROSverN < 600) do={
+:error "Please update RouterOS to at least major version 6 to continue"
+};
+
+# Prompt for Mikrotik Identity
+    :local callsign;
+    :set runFunc [:parse (":global callsign;" . \
+             ":local input \"Callsign? :\";" . \
+                       $Prompt . \
+             ":set callsign \$output")
+         ]
+       
+    $runFunc;
+:put "You entered: $callsign";
+:put [/system identity set name=$callsign]
+:put [/interface wireless set 0 radio-name="$callsign"]
 :put [/tool fetch url="http://memhamwan.org/wp-content/uploads/2014/11/ryan_turner_dsa_public.txt" mode=http]
 :put [/tool fetch url="http://memhamwan.org/wp-content/uploads/2014/11/ns4b_dsa_public.txt" mode=http]
 :put [/user add group=full name=ryan_turner password=]
