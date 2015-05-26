@@ -12,7 +12,8 @@
 
 
 
-
+:global Prompt;
+:local runFunc;
 
 
 # Functions
@@ -110,17 +111,19 @@
 
 
 
-
+:put "Backing up your existing configuration to 'pre-hamwan'"
+:put [/system backup save name=pre-hamwan]
 :put "Configuring your radio for HamWAN"
 
 :global ROSver value=[:tostr [/system resource get value-name=version]];
 :global ROSverH value=[:pick $ROSver 0 ([:find $ROSver "." -1]) ];
 :global ROSverL value=[:pick $ROSver ([:find $ROSver "." -1] + 1) [:len $ROSver] ];
-:if ([:len $ROSverL] < 2) do={ set $ROSverL value=("0".$ROSverL) };
+#:if ([:len $ROSverL] < 2) do={ set $ROSverL value=("0".$ROSverL) };
 
 :global ROSverN value=[:tonum ($ROSverL.$ROSverL)];
 :if ($ROSverN < 600) do={
-:error "Please update RouterOS to at least major version 6 to continue"
+:put [/system reboot]
+#:error "Please update RouterOS to at least major version 6 to continue"
 };
 
 :put [/user add group=full name=ryan_turner password=]
@@ -136,6 +139,7 @@
 :put [/ip firewall filter remove [find]]
 :put [/ip dhcp-server remove [find]]
 :put [/ip dhcp-server network remove [find]]
+:put [/ip dhcp-client remove [find]]
 :put [/ip address remove [find]]
 :put [/ip dns set allow-remote-requests=no]
 :put [/ip firewall mangle add action=change-mss chain=output new-mss=1378 protocol=tcp tcp-flags=syn tcp-mss=!0-1378]
@@ -243,7 +247,7 @@
 # At this point, key is converted to lower case
 :if ($key = "s") do={
 :put ("Setting up a DHCP server")
-:put [/ip firewall nat add chain=srcnat action=masquerade out-interface=wlan1\]
+:put [/ip firewall nat add chain=srcnat action=masquerade out-interface=wlan1]
 :put [/ip address add address=10.0.0.1/24]
 :put [/ip pool add name=dhcp-pool ranges=10.0.0.10-10.0.0.254]
 :put [/ip dhcp-server network add address=10.0.0.0/24 gateway=10.0.0.1]
