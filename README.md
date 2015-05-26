@@ -1,5 +1,6 @@
 # HamWAN Memphis Metro Easy Config
-1. Open Winbox
+1. Download the contents of this branch using the following URL: https://github.com/ryanturner/memhamwan-net-configs/archive/client.zip
+2. Open Winbox
 2. Click on the "Neighbors" tab in the lower part of the Addresses window
 3. Look for the entry labeled RB Metal 5SHPn under Board, and double click the MAC Address for it.
 4. Click on the "Connect" button
