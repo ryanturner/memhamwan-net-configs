@@ -1,5 +1,5 @@
 # memhamwan-net-configs
-# Execute with /import client-node-config.rsc
+# Execute with /import setup.rsc
 # This script assumes that you've transferred a full set of RouterOS software and all appropriate user certificates
 # after you execute this script, you need to do three things
 # /system identity set name=YourCallsign
