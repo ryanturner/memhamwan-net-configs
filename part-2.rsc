@@ -109,6 +109,9 @@
 
 
 :global networks "Memphis,PSDR"
+
+:local continue true;
+:while ($continue) do={
 :put "The following network options are available: $networks"
     :global network;
     :set runFunc [:parse (":global network;" . \
@@ -128,6 +131,7 @@ $runFunc
         "dnsServers"=            "44.24.244.1,44.24.245.1";
         "netAdmins"=             "eo,NQ1E,nigel,osburn,tom"
     };
+    :set continue false;
 } else={
 :if ($network = "Memphis") do={
     :set networkValues {
@@ -138,8 +142,10 @@ $runFunc
         "dnsServers"=            "44.34.132.1,44.34.133.1";
         "netAdmins"=             "ns4b,ryan_turner"
     };
+    :set continue false;
 } else={
-:put "Invalid selection; re-run this script"
+:put "Invalid selection"
+}
 }
 }
 # Prompt for password - mask characters typed
