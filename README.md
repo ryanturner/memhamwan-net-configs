@@ -8,4 +8,4 @@
 5. Extract the contents of the easy config zip file to a directory on your local machine, then drag and drop those files into the "Files" window
 5. Click "New Terminal" and enter ```/import part-1.rsc```, then hit Y when prompted. The radio will disconnect and reboot.
 6. Once you hear the device finish booting, as indicated by two short beeps, reconnect using the same procedure as before.
-7. Click "New Terminal" and enter ```/import part-2.rsc```
+7. Click "New Terminal" and enter ```/import part-2.rsc```; follow the on-screen prompts and instructions
