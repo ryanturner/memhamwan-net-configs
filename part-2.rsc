@@ -109,9 +109,6 @@
 
 
 :global networks "Memphis,PSDR"
-
-:local continue true;
-:while ($continue) do={
 :put "The following network options are available: $networks"
     :global network;
     :set runFunc [:parse (":global network;" . \
@@ -131,7 +128,6 @@ $runFunc
         "dnsServers"=            "44.24.244.1,44.24.245.1";
         "netAdmins"=             "eo,NQ1E,nigel,osburn,tom"
     };
-    :set continue false;
 } else={
 :if ($network = "Memphis") do={
     :set networkValues {
@@ -142,10 +138,8 @@ $runFunc
         "dnsServers"=            "44.34.132.1,44.34.133.1";
         "netAdmins"=             "ns4b,ryan_turner"
     };
-    :set continue false;
 } else={
-:put "Invalid selection"
-}
+:put "Invalid selection; re-run this script"
 }
 }
 # Prompt for password - mask characters typed
@@ -274,7 +268,7 @@ $runFunc
 :if ($key = "s") do={
 :put ("Setting up a DHCP server")
 :put [/ip firewall nat add chain=srcnat action=masquerade out-interface=wlan1]
-:put [/ip address add address=10.0.0.1/24 interface=ether1]
+:put [/ip address add address=10.0.0.1/24]
 :put [/ip pool add name=dhcp-pool ranges=10.0.0.10-10.0.0.254]
 :put [/ip dhcp-server network add address=10.0.0.0/24 gateway=10.0.0.1]
 :put [/ip dhcp-server add interface=ether1 address-pool=dhcp-pool]
