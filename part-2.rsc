@@ -1,24 +1,5 @@
-# memhamwan-net-configs
-# Execute with /import setup.rsc
-# This script assumes that you've transferred a full set of RouterOS software and all appropriate user certificates
-# after you execute this script, you need to do three things
-# /system identity set name=YourCallsign
-# /interface wireless set 0 radio-name="YourCallsign"
-# /console clear-history
-
-
-
-
-
-
-
 :global Prompt;
 :local runFunc;
-
-
-# Functions
-#------------
-
 
 # Prompt: Puts a prompt on the command line, then accepts an input from the user.
 # Input array:
@@ -126,16 +107,65 @@
 #:error "Please update RouterOS to at least major version 6 to continue"
 };
 
-:put [/user add group=full name=ryan_turner password=]
-:put [/user ssh-keys import public-key-file=ryan_turner_dsa_public.txt user=ryan_turner]
-:put [/user add group=full name=ns4b password=]
-:put [/user ssh-keys import public-key-file=ns4b_dsa_public.txt user=ns4b]
-:put [/system logging action set 3 bsd-syslog=no name=remote remote=44.34.128.21 remote-port=514 src-address=0.0.0.0 syslog-facility=daemon syslog-severity=auto target=remote]
+
+:global networks "Memphis,PSDR"
+:put "The following network options are available: $networks"
+    :global network;
+    :set runFunc [:parse (":global network;" . \
+             ":local input \"Enter network:\";" . \
+                       $Prompt . \
+             ":set network \$output")
+         ]        
+$runFunc
+
+:global networkValues;
+:if ($network = "PSDR") do={
+    :set networkValues {
+        "remoteLoggingServer"=   "44.24.255.4";
+        "primaryNtpServer"=      "44.24.244.4";
+        "secondaryNtpServer"=    "44.24.245.4";
+        "snmpCommunityAddresses"="44.24.255.0/25";
+        "dnsServers"=            "44.24.244.1,44.24.245.1";
+        "netAdmins"=             "eo,NQ1E,nigel,osburn,tom"
+    };
+} else={
+:if ($network = "Memphis") do={
+    :set networkValues {
+        "remoteLoggingServer"=   "44.34.128.21";
+        "primaryNtpServer"=      "44.34.132.3";
+        "secondaryNtpServer"=    "44.34.133.3";
+        "snmpCommunityAddresses"="44.34.128.0/28";
+        "dnsServers"=            "44.34.132.1,44.34.133.1";
+        "netAdmins"=             "ns4b,ryan_turner"
+    };
+} else={
+:put "Invalid selection; re-run this script"
+}
+}
+# Prompt for password - mask characters typed
+    :global password;
+    :set runFunc [:parse (":global password;" . \
+             ":local input \"Enter new admin password or leave blank to skip:,1\";" . \
+                       $Prompt . \
+             ":set password \$output")
+         ]
+        
+    $runFunc;
+    
+    if ([:len $password] > 0) do={ /user set admin password=$password }
+
+:foreach netAdmin in [:toarray ($networkValues->"netAdmins")] do={
+    :put [/user add group=full name=$netAdmin password=$password]
+    :local keyFile ("key-dsa-" . $netAdmin . ".txt")
+    :put [/user ssh-keys import public-key-file=$keyFile user=$netAdmin]
+};
+
+:put [/system logging action set 3 bsd-syslog=no name=remote remote=($networkValues->"remoteLoggingServer") remote-port=514 src-address=0.0.0.0 syslog-facility=daemon syslog-severity=auto target=remote]
 :put [/system logging add action=remote disabled=no prefix="" topics=!debug,!snmp]
 :put [/snmp set enabled=yes contact="#HamWAN on irc.freenode.org"]
-:put [/snmp community set name=hamwan addresses=44.34.128.0/28 read-access=yes write-access=no numbers=0]
-:put [/ip dns set servers=44.34.132.1,44.34.133.1]
-:put [/system ntp client set enabled=yes primary-ntp=44.34.132.3 secondary-ntp=44.34.133.3]
+:put [/snmp community set name=hamwan addresses=($networkValues->"snmpCommunityAddresses") read-access=yes write-access=no numbers=0]
+:put [/ip dns set servers=($networkValues->"dnsServers")]
+:put [/system ntp client set enabled=yes primary-ntp=($networkValues->"primaryNtpServer") secondary-ntp=($networkValues->"secondaryNtpServer")]
 :put [/ip firewall filter remove [find]]
 :put [/ip dhcp-server remove [find]]
 :put [/ip dhcp-server network remove [find]]
@@ -151,19 +181,8 @@
 :put [/ip dhcp-client add add-default-route=yes dhcp-options=hostname,clientid disabled=no interface=wlan1]
 
 
-# Prompt for password - mask characters typed
-    :local password;
-    :set runFunc [:parse (":global password;" . \
-             ":local input \"Enter new admin password or leave blank to skip:,1\";" . \
-                       $Prompt . \
-             ":set password \$output")
-         ]
-        
-    $runFunc;
-    
-    if ([:len $password] > 0) do={ /user set admin password=$password }
 # Prompt for callsign
-    :local callsign;
+    :global callsign;
     :set runFunc [:parse (":global callsign;" . \
              ":local input \"Enter your callsign:\";" . \
                        $Prompt . \
@@ -181,9 +200,10 @@
 :put "Now let's configure your LAN (ethernet) side of the radio"
 :put "Press C to have the radio act as a DHCP client on the ethernet; use if you're integrating with an existing network"
 :put "Press S to have the radio act as a DHCP server on the ethernet; use if you're running this without a separate router"
+:put "Press T to configure a static IP; use if you're integrating with an existing network and you're a bit more advanced"
 :put "Press N to not configure anything additionally on the LAN port"
-:local prompt "Please select your option [C,S,N]"
-:local options "c,s,n"
+:local prompt "Please select your option [C,S,T,N]"
+:local options "c,s,t,n"
 
 # Array of ascii values and ascii characters
 # The ascii values directly correspond to a single ascii character
@@ -252,16 +272,30 @@
 :put [/ip pool add name=dhcp-pool ranges=10.0.0.10-10.0.0.254]
 :put [/ip dhcp-server network add address=10.0.0.0/24 gateway=10.0.0.1]
 :put [/ip dhcp-server add interface=ether1 address-pool=dhcp-pool]
+}
+:if ($key = "t") do={
+:put ("Setting up a static IP")
+    :global staticIp;
+    :set runFunc [:parse (":global staticIp;" . \
+             ":local input \"Enter the desired IP in format like 192.168.0.1/24:\";" . \
+                       $Prompt . \
+             ":set staticIp \$output")
+         ]
 
+    $runFunc;
+
+    if ([:len $staticIp] > 0) do={
+        :put [/ip firewall nat add chain=srcnat action=masquerade out-interface=wlan1]
+        :put [/ip address add address=$staticIp interface=ether1]
+    }
 }
 :if ($key = "n") do={
    :put ("Not performing any ethernet integration config; you will need to do this yourself.")
 }
 :if ($key = "c") do={
     :put ("Seeting up a DHCP client")
+    :put [/ip firewall nat add chain=srcnat action=masquerade out-interface=wlan1]
     :put [/ip dhcp-client add add-default-route=no disabled=no interface=ether1]
 }
-
-
 
 :put [/system reboot]
