@@ -1,5 +1,4 @@
-*All \*.npk files are wholly and entirely property of MikroTikls SIA, governed by the end-user license agreement located [on their website](http://www.mikrotik.com/downloadterms.html).*
-*Many scripts have been adopted from public-domain snippets taken from forum.mikrotik.com by user "dssmiktik"*
+*All *.npk files are wholly and entirely property of MikroTikls SIA, governed by the end-user license agreement located [on their website](http://www.mikrotik.com/downloadterms.html). Some portions of this work is based on public-domain examples taken from forum.mikrotik.com by user "dssmiktik".*
 
 ## creative commons
 
