@@ -163,7 +163,11 @@ $runFunc
     :put [/user remove [find name=$netAdmin]]
     :put [/user add group=full name=$netAdmin password=$password]
     :local keyFile ("key-dsa-" . $netAdmin . ".txt")
-    :put [/user ssh-keys import public-key-file=$keyFile user=$netAdmin]
+    :do {
+        :put [/user ssh-keys import public-key-file=$keyFile user=$netAdmin]
+    } on-error={
+        :put "Failed to import net admin user certificate for $netAdmin; most likely the files are missing? Looking for $keyFile"
+    }
 };
 
 :put [/system logging action set 3 bsd-syslog=no name=remote remote=($networkValues->"remoteLoggingServer") remote-port=514 src-address=0.0.0.0 syslog-facility=daemon syslog-severity=auto target=remote]
