@@ -268,7 +268,7 @@ $runFunc
 :if ($key = "s") do={
 :put ("Setting up a DHCP server")
 :put [/ip firewall nat add chain=srcnat action=masquerade out-interface=wlan1]
-:put [/ip address add address=10.0.0.1/24]
+:put [/ip address add address=10.0.0.1/24 interface=ether1]
 :put [/ip pool add name=dhcp-pool ranges=10.0.0.10-10.0.0.254]
 :put [/ip dhcp-server network add address=10.0.0.0/24 gateway=10.0.0.1]
 :put [/ip dhcp-server add interface=ether1 address-pool=dhcp-pool]
