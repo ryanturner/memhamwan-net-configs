@@ -8,5 +8,5 @@
 7. Click on "Files" in the left hand menu
 8. Extract the contents of the easy config zip file to a directory on your local machine, then drag and drop those files into the "Files" window
 9. Click "New Terminal" and enter ```/import setup.rsc```
-10. If prompted with "Your RouterOS version is too old to continue!", hit Y; the radio will disconnect and reboot; once you hear the device finish booting, as indicated by two short beeps, repeat steps 6, 9, and 10
+10. If prompted with "Your RouterOS version is too old to continue!", hit Y; the radio will disconnect and reboot; once you hear the device finish booting, as indicated by two short beeps, repeat steps 6, 9, and 10, then continue to 11
 11. Follow the prompts to configure your radio; we recommend starting with it as a DHCP server and connecting a computer directly to the radio at first; you can re-run this script if you wish to change the values
