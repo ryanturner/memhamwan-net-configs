@@ -103,8 +103,9 @@
 
 :global ROSverN value=[:tonum ($ROSverL.$ROSverL)];
 :if ($ROSverN < 600) do={
+:put "Your RouterOS version is too old to continue!"
+:put "Before we can begin, we must update your RouterOS version. Please press Y, wait for the radio to reboot, then reconnect to the router and re-run this script."
 :put [/system reboot]
-#:error "Please update RouterOS to at least major version 6 to continue"
 };
 
 
@@ -155,6 +156,7 @@ $runFunc
     if ([:len $password] > 0) do={ /user set admin password=$password }
 
 :foreach netAdmin in [:toarray ($networkValues->"netAdmins")] do={
+    :put [/user remove [find name=$netAdmin]]
     :put [/user add group=full name=$netAdmin password=$password]
     :local keyFile ("key-dsa-" . $netAdmin . ".txt")
     :put [/user ssh-keys import public-key-file=$keyFile user=$netAdmin]
@@ -172,8 +174,10 @@ $runFunc
 :put [/ip dhcp-client remove [find]]
 :put [/ip address remove [find]]
 :put [/ip dns set allow-remote-requests=no]
+:put [/ip firewall mangle remove [find]]
 :put [/ip firewall mangle add action=change-mss chain=output new-mss=1378 protocol=tcp tcp-flags=syn tcp-mss=!0-1378]
 :put [/ip firewall mangle add action=change-mss chain=forward new-mss=1378 protocol=tcp tcp-flags=syn tcp-mss=!0-1378]
+:put [/interface wireless channels remove [find]]
 :put [/interface wireless channels add band=5ghz-onlyn comment="Cell sites radiate this at 0 degrees (north)" frequency=5920 list=HamWAN name=Sector1-10 width=10]
 :put [/interface wireless channels add band=5ghz-onlyn comment="Cell sites radiate this at 120 degrees (south-east)" frequency=5900 list=HamWAN name=Sector2-10 width=10]
 :put [/interface wireless channels add band=5ghz-onlyn comment="Cell sites radiate this at 240 degrees (south-west)" frequency=5880 list=HamWAN name=Sector3-10 width=10]
@@ -297,5 +301,5 @@ $runFunc
     :put [/ip firewall nat add chain=srcnat action=masquerade out-interface=wlan1]
     :put [/ip dhcp-client add add-default-route=no disabled=no interface=ether1]
 }
-
+:put "Setup complete!"
 :put [/system reboot]

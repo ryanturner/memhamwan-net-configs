@@ -1,1 +1,0 @@
-:put [/system reboot]

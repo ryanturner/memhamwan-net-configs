@@ -7,6 +7,6 @@
 7. Click on the "Connect" button; don't worry, the pre-filled settings for user "admin" and no password are the default
 8. Click on "Files" in the left hand menu
 9. Extract the contents of the easy config zip file to a directory on your local machine, then drag and drop those files into the "Files" window
-10. Click "New Terminal" and enter ```/import part-1.rsc```, then hit Y when prompted; the radio will disconnect and reboot
-11. Once you hear the device finish booting, as indicated by two short beeps, reconnect by repeating step 7
-12. Click "New Terminal" and enter ```/import part-2.rsc```
+10. Click "New Terminal" and enter ```/import setup.rsc```
+11. If prompted with "Your RouterOS version is too old to continue!", hit Y; the radio will disconnect and reboot; once you hear the device finish booting, as indicated by two short beeps, and repeat steps 7-10
+12. Follow the prompts to configure your radio; we recommend starting with it as a DHCP server and connecting a computer directly to the radio at first; you can re-run this script if you wish to change the values
