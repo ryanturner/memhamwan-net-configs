@@ -116,10 +116,12 @@
              ":local input \"Enter network:\";" . \
                        $Prompt . \
              ":set network \$output")
-         ]        
-$runFunc
-
+         ]   
+:local continue true;    
 :global networkValues;
+:while ($continue) do={
+$runFunc
+:set continue false;
 :if ($network = "PSDR") do={
     :set networkValues {
         "remoteLoggingServer"=   "44.24.255.4";
@@ -140,9 +142,11 @@ $runFunc
         "netAdmins"=             "ns4b,ryan_turner"
     };
 } else={
-:put "Invalid selection; re-run this script"
+:put "Invalid selection"
+:set continue true;
 }
 }
+} 
 # Prompt for password - mask characters typed
     :global password;
     :set runFunc [:parse (":global password;" . \
@@ -174,10 +178,10 @@ $runFunc
 :put [/ip dhcp-client remove [find]]
 :put [/ip address remove [find]]
 :put [/ip dns set allow-remote-requests=no]
-:put [/ip firewall mangle remove [find]]
-:put [/ip firewall mangle add action=change-mss chain=output new-mss=1378 protocol=tcp tcp-flags=syn tcp-mss=!0-1378]
-:put [/ip firewall mangle add action=change-mss chain=forward new-mss=1378 protocol=tcp tcp-flags=syn tcp-mss=!0-1378]
-:put [/interface wireless channels remove [find]]
+:put [/ip firewall mangle remove [find comment=hamwan-auto]]
+:put [/ip firewall mangle add action=change-mss chain=output new-mss=1378 protocol=tcp tcp-flags=syn tcp-mss=!0-1378 comment=hamwan-auto]
+:put [/ip firewall mangle add action=change-mss chain=forward new-mss=1378 protocol=tcp tcp-flags=syn tcp-mss=!0-1378 comment=hamwan-auto]
+:put [/interface wireless channels remove [find list=HamWAN]]
 :put [/interface wireless channels add band=5ghz-onlyn comment="Cell sites radiate this at 0 degrees (north)" frequency=5920 list=HamWAN name=Sector1-10 width=10]
 :put [/interface wireless channels add band=5ghz-onlyn comment="Cell sites radiate this at 120 degrees (south-east)" frequency=5900 list=HamWAN name=Sector2-10 width=10]
 :put [/interface wireless channels add band=5ghz-onlyn comment="Cell sites radiate this at 240 degrees (south-west)" frequency=5880 list=HamWAN name=Sector3-10 width=10]
@@ -273,9 +277,10 @@ $runFunc
 :put ("Setting up a DHCP server")
 :put [/ip firewall nat add chain=srcnat action=masquerade out-interface=wlan1]
 :put [/ip address add address=10.0.0.1/24 interface=ether1]
+:put [/ip pool remove [find name=dhcp-pool]]
 :put [/ip pool add name=dhcp-pool ranges=10.0.0.10-10.0.0.254]
 :put [/ip dhcp-server network add address=10.0.0.0/24 gateway=10.0.0.1]
-:put [/ip dhcp-server add interface=ether1 address-pool=dhcp-pool]
+:put [/ip dhcp-server add interface=ether1 address-pool=dhcp-pool disabled=no]
 }
 :if ($key = "t") do={
 :put ("Setting up a static IP")
