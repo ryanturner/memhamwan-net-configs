@@ -143,15 +143,14 @@
 :put [/ip firewall mangle add action=change-mss chain=output new-mss=1378 protocol=tcp tcp-flags=syn tcp-mss=!0-1378]
 :put [/ip firewall mangle add action=change-mss chain=forward new-mss=1378 protocol=tcp tcp-flags=syn tcp-mss=!0-1378]
 
-:local hamwanSubnet
-:set hamwanSubnet ($networkValues->"subnetWithCidr")
-:put $hamwanSubnet
 :put [/routing filter remove [find]]
-:put [/routing filter add action=accept chain=HamWAN prefix=$hamwanSubnet prefix-length=20-32]
-:put [/routing filter add action=reject chain=HamWAN]
-:put [/routing filter add action=accept chain=HamWAN-default prefix=$hamwanSubnet prefix-length=20-32]
-:put [/routing filter add action=accept chain=HamWAN-default prefix=0.0.0.0/0]
-:put [/routing filter add action=reject chain=HamWAN-default]
+#:put [/routing filter add action=accept chain=HamWAN prefix=$subnetWithCidr prefix-length=20-32]
+#:put [/routing filter add action=reject chain=HamWAN]
+:put [/routing filter add action=accept chain=HamWAN]
+#:put [/routing filter add action=accept chain=HamWAN-default prefix=$subnetWithCidr prefix-length=20-32]
+#:put [/routing filter add action=accept chain=HamWAN-default prefix=0.0.0.0/0]
+#:put [/routing filter add action=reject chain=HamWAN-default]
+:put [/routing filter add action=accept chain=HamWAN-default]
 :put [/routing filter add action=accept chain=AMPR-default prefix=44.0.0.0/8 prefix-length=8-32]
 :put [/routing filter add action=accept chain=AMPR-default prefix=0.0.0.0/0]
 :put [/routing filter add action=reject chain=AMPR-default]
