@@ -132,7 +132,7 @@ $runFunc
         "dnsServers"=            "44.24.244.1,44.24.245.1";
         "netAdmins"=             "eo,NQ1E,nigel,osburn,tom";
         "netDomain"=             "HamWAN.net";
-        "subnetWithCidr"=        "44.24.240.0/20";
+        "subnetWithCidr"=        44.24.240.0/20;
         "callsign"=              "KI7WAN"
     };
 } else={
@@ -145,7 +145,7 @@ $runFunc
         "dnsServers"=            "44.34.132.1,44.34.133.1";
         "netAdmins"=             "ns4b,ryan_turner";
         "netDomain"=             "MemHamWAN.net";
-        "subnetWithCidr"=        "44.34.128.0/21"; /routing filter add action=accept chain=HamWAN prefix=44.34.128.0/21 prefix-length=20-32
+        "subnetWithCidr"=        44.34.128.0/21;
         "callsign"=              "KM4ECM"
     };
 } else={

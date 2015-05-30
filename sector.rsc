@@ -144,7 +144,7 @@
 :put [/ip firewall mangle add action=change-mss chain=forward new-mss=1378 protocol=tcp tcp-flags=syn tcp-mss=!0-1378]
 
 :local hamwanSubnet
-:set hamwanSubnet "44.34.128.0/21"
+:set hamwanSubnet ($networkValues->"subnetWithCidr")
 :put $hamwanSubnet
 :put [/routing filter remove [find]]
 :put [/routing filter add action=accept chain=HamWAN prefix=$hamwanSubnet prefix-length=20-32]
