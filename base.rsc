@@ -1,3 +1,4 @@
+:put [/system script environment remove [find]]
 :global Prompt;
 :local runFunc;
 
@@ -20,13 +21,13 @@
                                   \"m,n,o,p,q,r,s,t,u,v,w,x,y,z,\" . \
                                   \"A,B,C,D,E,F,G,H,I,J,K,L,\" . \
                                   \"M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,\" . \
-                                  \".,/\")
+                                  \"-,.,/\")
                 :local asciival {48;49;50;51;52;53;54;55;56;57; \
                                  97;98;99;100;101;102;103;104;105;106;107;108; \
                                  109;110;111;112;113;114;115;116;117;118;119;120;121;122; \
                                  65;66;67;68;69;70;71;72;73;74;75;76; \
                                  77;78;79;80;81;82;83;84;85;86;87;88;89;90; \
-                                 46;47}
+                                 45;46;47}
                 
                 :local findindex;
                 :local loop 1;
@@ -129,7 +130,10 @@ $runFunc
         "secondaryNtpServer"=    "44.24.245.4";
         "snmpCommunityAddresses"="44.24.255.0/25";
         "dnsServers"=            "44.24.244.1,44.24.245.1";
-        "netAdmins"=             "eo,NQ1E,nigel,osburn,tom"
+        "netAdmins"=             "eo,NQ1E,nigel,osburn,tom";
+        "netDomain"=             "HamWAN.net";
+        "subnetWithCidr"=        "44.24.240.0/20";
+        "callsign"=              "KI7WAN"
     };
 } else={
 :if ($network = "Memphis") do={
@@ -139,7 +143,10 @@ $runFunc
         "secondaryNtpServer"=    "44.34.133.3";
         "snmpCommunityAddresses"="44.34.128.0/28";
         "dnsServers"=            "44.34.132.1,44.34.133.1";
-        "netAdmins"=             "ns4b,ryan_turner"
+        "netAdmins"=             "ns4b,ryan_turner";
+        "netDomain"=             "MemHamWAN.net";
+        "subnetWithCidr"=        "44.34.128.0/21"; /routing filter add action=accept chain=HamWAN prefix=44.34.128.0/21 prefix-length=20-32
+        "callsign"=              "KM4ECM"
     };
 } else={
 :put "Invalid selection"
