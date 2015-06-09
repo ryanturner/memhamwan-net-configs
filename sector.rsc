@@ -111,7 +111,7 @@
 :set vrrpIpWithCidr ($vrrpIp . "/28");
 
 :local name;
-:set name (($networkValues->"callsign") . "/" . $site . "-S" . $sector);
+:set name ("s" . $sector "." $site);
 :local frequency;
 
 :if ($sector = "1") do={
