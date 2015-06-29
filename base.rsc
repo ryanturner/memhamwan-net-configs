@@ -141,7 +141,7 @@ $runFunc
         "remoteLoggingServer"=   "44.34.128.21";
         "primaryNtpServer"=      "44.34.132.3";
         "secondaryNtpServer"=    "44.34.133.3";
-        "snmpCommunityAddresses"="44.34.128.0/28";
+        "snmpCommunityAddresses"="44.34.128.0/21";
         "dnsServers"=            "44.34.132.1,44.34.133.1";
         "netAdmins"=             "ns4b,ryan_turner";
         "netDomain"=             "MemHamWAN.net";
