@@ -111,7 +111,7 @@
 :set vrrpIpWithCidr ($vrrpIp . "/28");
 
 :local name;
-:set name ("s" . $sector "." $site);
+:set name ("sec" . $sector "." $site);
 :local frequency;
 
 :if ($sector = "1") do={
