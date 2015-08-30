@@ -138,7 +138,7 @@ $runFunc
 } else={
 :if ($network = "Memphis") do={
     :set networkValues {
-        "remoteLoggingServer"=   "44.34.128.21";
+        "remoteLoggingServer"=   "44.34.128.165";
         "primaryNtpServer"=      "44.34.132.3";
         "secondaryNtpServer"=    "44.34.133.3";
         "snmpCommunityAddresses"="44.34.128.0/21";
