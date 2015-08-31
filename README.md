@@ -1,5 +1,5 @@
 # HamWAN Easy Config
-1. Download the [HamWAN Easy Config 0.1rc4](https://github.com/ryanturner/memhamwan-net-configs/archive/v0.1rc3-r6.28.zip), and [Winbox 3.0rc12](http://download2.mikrotik.com/routeros/winbox/3.0rc12/winbox.exe)
+1. Download the [HamWAN Easy Config 0.1rc4](https://github.com/ryanturner/memhamwan-net-configs/archive/v0.1rc3-r6.31.zip), and [Winbox 3.0rc12](http://download2.mikrotik.com/routeros/winbox/3.0rc12/winbox.exe)
 2. Open winbox.exe
 3. Click on the "Neighbors" tab in the lower part of the Addresses window
 4. Look for the entry labeled RB Metal 5SHPn under Board, and double click the MAC Address for it

@@ -227,7 +227,7 @@
    :put ("Not performing any ethernet integration config; you will need to do this yourself.")
 }
 :if ($key = "c") do={
-    :put ("Seeting up a DHCP client")
+    :put ("Setting up a DHCP client")
     :put [/ip firewall nat add chain=srcnat action=masquerade out-interface=wlan1]
     :put [/ip dhcp-client add add-default-route=no disabled=no interface=ether1]
 }
